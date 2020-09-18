@@ -23,13 +23,15 @@ function createTable() {
         var textCol = $('<div>')
         textCol.attr('class', 'col-md-8')
         var textareaEle = $('<textarea>')
+        textareaEle.attr('class', `${time}-text`)
         // append textarea to col and col to row
         textCol.append(textareaEle)
         tableRow.append(textCol)
 
         // create save button column
         var saveCol = $('<div>')
-        saveCol.attr('class', 'col-md-2 saveBtn')
+        saveCol.attr('class', `col-md-2 saveBtn`)
+        saveCol.attr('data-time', time)
         tableRow.append(saveCol)
 
         // append whole row to container
@@ -39,18 +41,25 @@ function createTable() {
 
 }
 
+// function to load data from local storage to table for display
 function loadData() {
 
 }
 
-function storeData(time) {
+// function to store data when user saves text
+function storeData() {
     var currentDate = $('#currentDay').text()
-    var times = localStorage.getItem(currentDate)
-    times = JSON.parse(times)
-    times[time] = ''
-
+    var timesInStorage = localStorage.getItem(currentDate)
+    var timeToStore = $(this).attr('data-time')
+    times = JSON.parse(timesInStorage)
+    var textareaText = $(`.${timeToStore}-text`).val()
+    times[timeToStore] = textareaText
+    timeForStorage = JSON.stringify(times)
+    localStorage.setItem(currentDate, timeForStorage)
 }
 
+createTable();
+
+// save text in textarea to local storage when user clicks save
 $('.saveBtn').on('click', storeData)
 
-createTable();
