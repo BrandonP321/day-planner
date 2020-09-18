@@ -45,8 +45,16 @@ function createTable() {
 
 // function to load data from local storage to table for display
 function loadData() {
-    // pull data for the current date from local storage
+    // retrive the current date from the page
     var currentDate = $('#currentDay').text()
+    // if the current date isn't stored in local storage, store an empty object in for the date
+    if (!localStorage.getItem(currentDate)) {
+        var emptyObj = {'nine': '', 'ten': '', 'eleven': '', 'twelve': '', 'one': '', 'two': '', 'three': '', 'four': '', 'five': ''}
+        var objToStore = JSON.stringify(emptyObj)
+        localStorage.setItem(currentDate, objToStore)
+    }
+
+    // pull data for the current date from local storage
     var timesInStorage = localStorage.getItem(currentDate)
     // parse the object of time data from local storage
     var timeData = JSON.parse(timesInStorage)
