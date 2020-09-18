@@ -3,6 +3,7 @@ var containerEle = $('.container')
 var dateData = {}
 var tableTimes = ['nine', 'ten', 'eleven', 'twelve', 'one', 'two', 'three', 'four', 'five']
 var tableTimesNumbers = ['9AM', '10AM', '11AM', '12PM', '1PM', '2PM', '3PM', '4PM', '5PM']
+var numbers = [9, 10, 11, 12, 1, 2, 3, 4, 5]
 var dateOffsetCounter = 0;
 
 // function to create rows for container
@@ -22,10 +23,20 @@ function createTable() {
         tableRow.append(timeCol)
 
         // create textarea column
+        var currentHour = moment().hour();
         var textCol = $('<div>')
         textCol.attr('class', 'col-md-8')
         var textareaEle = $('<textarea>')
         textareaEle.attr('class', `${time}-text`)
+        // word of time as a pure number to check if displayed time is future, past, or present
+        var timeAsNumber = numbers[tableTimes.indexOf(time)]
+        if (timeAsNumber < currentHour) {
+            textareaEle.addClass('past')
+        } else if (timeAsNumber > currentHour) {
+            textareaEle.addClass('future')
+        } else {
+            textareaEle.addClass('present')
+        }
         // append textarea to col and col to row
         textCol.append(textareaEle)
         tableRow.append(textCol)
