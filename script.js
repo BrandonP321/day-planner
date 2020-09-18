@@ -42,9 +42,12 @@ function createTable() {
         tableRow.append(textCol)
 
         // create save button column
-        var saveCol = $('<div>')
+        var saveCol = $('<button>')
+        var saveIcon = $('<i>')
         saveCol.attr('class', `col-md-2 saveBtn`)
         saveCol.attr('data-time', time)
+        saveIcon.attr('class', 'fas fa-save')
+        saveCol.append(saveIcon)
         tableRow.append(saveCol)
 
         // append whole row to container
