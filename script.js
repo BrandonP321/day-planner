@@ -3,7 +3,7 @@ var containerEle = $('.container')
 var dateData = {}
 var tableTimes = ['nine', 'ten', 'eleven', 'twelve', 'one', 'two', 'three', 'four', 'five']
 var tableTimesNumbers = ['9AM', '10AM', '11AM', '12PM', '1PM', '2PM', '3PM', '4PM', '5PM']
-var numbers = [9, 10, 11, 12, 1, 2, 3, 4, 5]
+var numbers = [9, 10, 11, 12, 13, 14, 15, 16, 17]
 var dateOffsetCounter = 0;
 
 // function to create rows for container
