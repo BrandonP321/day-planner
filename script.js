@@ -43,15 +43,27 @@ function createTable() {
 
 // function to load data from local storage to table for display
 function loadData() {
+    // pull data for the current date from local storage
+    var currentDate = $('#currentDay').text()
+    var timesInStorage = localStorage.getItem(currentDate)
+    // parse the object of time data from local storage
+    var timeData = JSON.parse(timesInStorage)
 
+    // for each time the user has save data for, display in each relative textarea
+    for (var time in timeData) {
+        $(`.${time}-text`).val(timeData[time])
+    }
 }
 
 // function to store data when user saves text
 function storeData() {
+    // retrive current date from page
     var currentDate = $('#currentDay').text()
+    // pull data for current date from local storage and parse the object
     var timesInStorage = localStorage.getItem(currentDate)
-    var timeToStore = $(this).attr('data-time')
     times = JSON.parse(timesInStorage)
+
+    var timeToStore = $(this).attr('data-time')
     var textareaText = $(`.${timeToStore}-text`).val()
     times[timeToStore] = textareaText
     timeForStorage = JSON.stringify(times)
@@ -59,6 +71,7 @@ function storeData() {
 }
 
 createTable();
+loadData();
 
 // save text in textarea to local storage when user clicks save
 $('.saveBtn').on('click', storeData)
