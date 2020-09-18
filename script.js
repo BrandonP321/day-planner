@@ -2,6 +2,8 @@
 var containerEle = $('.container')
 var dateData = {}
 var tableTimes = ['nine', 'ten', 'eleven', 'twelve', 'one', 'two', 'three', 'four', 'five']
+var tableTimesNumbers = ['9AM', '10AM', '11AM', '12PM', '1PM', '2PM', '3PM', '4PM', '5PM']
+var dateOffsetCounter = 0;
 
 // function to create rows for container
 function createTable() {
@@ -14,7 +16,7 @@ function createTable() {
         var timeCol = $('<div>')
         timeCol.attr('class', 'col-md-2 hour')
         var timeEle = $('<h2>')
-        timeEle.text(time)
+        timeEle.text(tableTimesNumbers[tableTimes.indexOf(time)])
         // append time display to time column and time col to row
         timeCol.append(timeEle)
         tableRow.append(timeCol)
@@ -51,6 +53,7 @@ function loadData() {
 
     // for each time the user has save data for, display in each relative textarea
     for (var time in timeData) {
+        // locate the appropriate textarea and change value to text from local storage
         $(`.${time}-text`).val(timeData[time])
     }
 }
@@ -70,9 +73,40 @@ function storeData() {
     localStorage.setItem(currentDate, timeForStorage)
 }
 
+// function sets the current date at the top of the page
+function setDate() {
+    var dateEle = $('#currentDay')
+    var currentDay = moment().format('MMM Do YYYY')
+    dateEle.text(currentDay)
+}
+
+setDate();
 createTable();
 loadData();
 
 // save text in textarea to local storage when user clicks save
 $('.saveBtn').on('click', storeData)
 
+$('.yesterday').on('click', function() {
+    // indicate that we want to move back in time by one day
+    dateOffsetCounter -= 1
+
+    // grab reference point to element for displaying date
+    var dateDisplay = $('#currentDay')
+    // retrieve current date and go back x many days
+    var newDate = moment().add(dateOffsetCounter, 'days').format('MMM Do YYYY')
+    dateDisplay.text(newDate)
+    loadData();
+})
+
+$('.tomorrow').on('click', function() {
+    // update counter to move forward one day
+    dateOffsetCounter += 1
+
+    // grab reference point to element for displaying date
+    var dateDisplay = $('#currentDay')
+    // retrive current date and go back x many days
+    var newDate = moment().add(dateOffsetCounter, 'days').format('MMM Do YYYY')
+    dateDisplay.text(newDate)
+    loadData();
+})
